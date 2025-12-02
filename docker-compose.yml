@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: rozhan_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rozhan
+      POSTGRES_PASSWORD: rozhan123
+      POSTGRES_DB: rozhan
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rozhan"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: rozhan_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: rozhan_backend
+    restart: unless-stopped
+    ports:
+      - "9999:9999"
+    environment:
+      - DATABASE_URL=postgresql://rozhan:rozhan123@postgres:5432/rozhan
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - postgres
+      - redis
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: rozhan_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:9999
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
