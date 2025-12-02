@@ -1,4 +1,4 @@
-name: Test
+name: Full Test Suite
 
 on:
   push:
@@ -7,6 +7,9 @@ on:
     branches: [main]
 
 jobs:
+  # ═══════════════════════════════════════════════════════════════
+  # Backend Tests
+  # ═══════════════════════════════════════════════════════════════
   test-backend:
     runs-on: ubuntu-latest
     steps:
@@ -20,13 +23,34 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend
-          pip install fastapi uvicorn pydantic python-dotenv requests httpx
+          pip install -q fastapi uvicorn pydantic python-dotenv requests httpx pytest pytest-asyncio
       
-      - name: Test imports
+      - name: Run pytest
         run: |
           cd backend
-          python -c "import main; print('Backend OK')"
+          python -m pytest tests/ -v --tb=short
+      
+      - name: Test all imports
+        run: |
+          cd backend
+          python -c "
+          print('Testing imports...')
+          import main
+          import ai_provider
+          import auth
+          import config
+          import db
+          import emotion_detector
+          import smart_learner
+          import gemini_client
+          import voice_chat
+          import video_chat
+          print('All imports OK!')
+          "
 
+  # ═══════════════════════════════════════════════════════════════
+  # Frontend Tests
+  # ═══════════════════════════════════════════════════════════════
   test-frontend:
     runs-on: ubuntu-latest
     steps:
@@ -44,7 +68,34 @@ jobs:
           cd frontend
           npm ci
       
+      - name: Lint check
+        run: |
+          cd frontend
+          npm run lint || true
+      
+      - name: TypeScript check
+        run: |
+          cd frontend
+          npx tsc --noEmit
+      
       - name: Build
         run: |
           cd frontend
           npm run build
+
+  # ═══════════════════════════════════════════════════════════════
+  # Docker Build Test
+  # ═══════════════════════════════════════════════════════════════
+  test-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build backend image
+        run: docker build -t rozhan-backend ./backend
+      
+      - name: Build frontend image
+        run: docker build -t rozhan-frontend ./frontend
+      
+      - name: Docker Compose config check
+        run: docker compose config
