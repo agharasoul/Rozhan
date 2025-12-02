@@ -234,6 +234,7 @@ export default function VideoChat({ isOpen, onClose, token }: VideoChatProps) {
     wsRef.current = ws;
     
     return ws;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMuted]);
 
   // ارسال فریم برای تحلیل
@@ -499,6 +500,7 @@ export default function VideoChat({ isOpen, onClose, token }: VideoChatProps) {
       stopCamera();
       stopSpeaking();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // اسکرول به پایین

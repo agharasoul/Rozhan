@@ -105,6 +105,7 @@ export default function SimpleVoiceChat({ onMessage, sessionId }: SimpleVoiceCha
       }
       setState("idle");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // توقف ضبط
