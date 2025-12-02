@@ -3,7 +3,13 @@ import { useState, useEffect } from 'react';
 import { useAuth, API_BASE } from '../contexts/AuthContext';
 import Link from 'next/link';
 
-const Card = ({icon, title, value}: any) => (
+interface CardProps {
+  icon: string;
+  title: string;
+  value: string | number;
+}
+
+const Card = ({icon, title, value}: CardProps) => (
   <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
     <div className="text-2xl mb-2">{icon}</div>
     <div className="text-slate-400 text-sm">{title}</div>
@@ -13,7 +19,20 @@ const Card = ({icon, title, value}: any) => (
 
 export default function SmartDashboard() {
   const { user, token } = useAuth();
-  const [data, setData] = useState<any>({});
+  interface Pattern {
+    day: string;
+    food: string;
+  }
+  interface DashboardData {
+    profile?: {
+      total_fields?: number;
+      profile?: { favorite_foods?: string[] };
+      warnings?: string[];
+      summary?: string;
+    };
+    patterns?: Pattern[];
+  }
+  const [data, setData] = useState<DashboardData>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,7 +74,7 @@ export default function SmartDashboard() {
         {patterns?.length > 0 && (
           <div className="bg-slate-800/50 rounded-xl p-4 mb-4 border border-blue-500/30">
             <h2 className="font-bold text-blue-400 mb-2">📈 الگوها</h2>
-            {patterns.map((p: any, i: number) => <p key={i} className="text-slate-300">📅 {p.day}: {p.food}</p>)}
+            {patterns.map((p: Pattern, i: number) => <p key={i} className="text-slate-300">📅 {p.day}: {p.food}</p>)}
           </div>
         )}
         {profile?.summary && (

@@ -19,11 +19,11 @@ interface Profile {
   spice_level: string;
   total_orders: number;
   loyalty_tier: string;
-  extra_data: Record<string, any>;
+  extra_data: Record<string, unknown>;
 }
 
 // Helper to safely parse JSON array fields
-const parseArrayField = (value: any): string[] => {
+const parseArrayField = (value: unknown): string[] => {
   if (!value) return [];
   if (Array.isArray(value)) return value;
   if (typeof value === 'string') {
@@ -38,7 +38,7 @@ const parseArrayField = (value: any): string[] => {
 };
 
 // Helper to safely parse JSON object fields
-const parseObjectField = (value: any): Record<string, any> => {
+const parseObjectField = (value: unknown): Record<string, unknown> => {
   if (!value) return {};
   if (typeof value === 'object' && !Array.isArray(value)) return value;
   if (typeof value === 'string') {
@@ -145,9 +145,9 @@ export default function ProfilePage() {
       
       setEditing(false);
       alert('پروفایل با موفقیت ذخیره شد!');
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      setSaveError(error.message || 'خطا در ذخیره پروفایل');
+      setSaveError(error instanceof Error ? error.message : 'خطا در ذخیره پروفایل');
     } finally {
       setSaving(false);
     }

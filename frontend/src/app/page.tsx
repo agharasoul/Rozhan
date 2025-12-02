@@ -24,6 +24,13 @@ interface ChatSession {
   message_count: number;
 }
 
+interface APIMessage {
+  id: number | string;
+  role: string;
+  content: string;
+  image_url?: string;
+}
+
 export default function Home() {
   const { user, token, isLoggedIn, logout, isLoading: authLoading } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -279,7 +286,7 @@ export default function Home() {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
-      const loadedMessages = (data.messages || []).map((m: any) => ({
+      const loadedMessages = (data.messages || []).map((m: APIMessage) => ({
         id: m.id.toString(),
         role: m.role as "user" | "assistant",
         content: m.content,
@@ -359,8 +366,9 @@ export default function Home() {
       };
       
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error: any) {
-      if (error.name !== 'AbortError' && thisRequestId === requestIdRef.current) {
+    } catch (error) {
+      const isAbortError = error instanceof Error && error.name === 'AbortError';
+      if (!isAbortError && thisRequestId === requestIdRef.current) {
         console.error("Retry error:", error);
         setNeedsRetry(true); // اگه خطا شد دوباره نشون بده
       }
@@ -515,8 +523,9 @@ export default function Home() {
         setCurrentSessionId(data.session_id);
         loadSessions();
       }
-    } catch (error: any) {
-      if (error.name === 'AbortError') {
+    } catch (error) {
+      const isAbortError = error instanceof Error && error.name === 'AbortError';
+      if (isAbortError) {
         return;
       }
       // فقط اگه این درخواست هنوز معتبره، خطا رو نشون بده

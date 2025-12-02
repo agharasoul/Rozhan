@@ -25,7 +25,14 @@ export async function POST(request: NextRequest) {
     }
 
     // ساخت parts
-    const parts: any[] = [];
+    interface GeminiPart {
+      text?: string;
+      inline_data?: {
+        mime_type: string;
+        data: string;
+      };
+    }
+    const parts: GeminiPart[] = [];
     
     if (image) {
       // حذف prefix از base64

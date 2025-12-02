@@ -94,14 +94,18 @@ export default function SimpleVoiceChat({ onMessage, sessionId }: SimpleVoiceCha
       setTranscript("");
       setResponse("");
       
-    } catch (error: any) {
+    } catch (error) {
       console.error("خطا در دسترسی به میکروفن:", error);
-      if (error.name === 'NotAllowedError') {
-        alert("لطفاً دسترسی به میکروفن را در تنظیمات مرورگر فعال کنید");
-      } else if (error.name === 'NotFoundError') {
-        alert("میکروفنی پیدا نشد");
+      if (error instanceof Error) {
+        if (error.name === 'NotAllowedError') {
+          alert("لطفاً دسترسی به میکروفن را در تنظیمات مرورگر فعال کنید");
+        } else if (error.name === 'NotFoundError') {
+          alert("میکروفنی پیدا نشد");
+        } else {
+          alert("خطا در دسترسی به میکروفن: " + error.message);
+        }
       } else {
-        alert("خطا در دسترسی به میکروفن: " + error.message);
+        alert("خطا در دسترسی به میکروفن");
       }
       setState("idle");
     }
@@ -189,10 +193,10 @@ export default function SimpleVoiceChat({ onMessage, sessionId }: SimpleVoiceCha
       
       // 4. Chat - گرفتن پاسخ از Gemini
       console.log("📤 ارسال به /chat...");
-      const chatBody: any = { message: userText };
+      const chatBody: { message: string; session_id?: number } = { message: userText };
       // فقط اگه sessionId عدد باشه بفرست
-      if (sessionId && typeof sessionId === 'number') {
-        chatBody.session_id = sessionId;
+      if (sessionId && !isNaN(Number(sessionId))) {
+        chatBody.session_id = Number(sessionId);
       }
 
       const chatHeaders: Record<string, string> = {
