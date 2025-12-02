@@ -40,11 +40,16 @@ const parseArrayField = (value: unknown): string[] => {
 // Helper to safely parse JSON object fields
 const parseObjectField = (value: unknown): Record<string, unknown> => {
   if (!value) return {};
-  if (typeof value === 'object' && !Array.isArray(value)) return value;
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
   if (typeof value === 'string') {
     try {
       const parsed = JSON.parse(value);
-      return typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+      if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
+        return parsed as Record<string, unknown>;
+      }
+      return {};
     } catch {
       return {};
     }

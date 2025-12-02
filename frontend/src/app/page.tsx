@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Plus, Camera, X, Image as ImageIcon, Download, User, LogOut, UtensilsCrossed, ShoppingCart, MessageSquare, Trash2, Menu, PanelLeftClose, History, Search, Clock, Volume2, VolumeX, Video } from "lucide-react";
+import { Send, Plus, Camera, X, Image as ImageIcon, Download, User, LogOut, UtensilsCrossed, ShoppingCart, MessageSquare, Trash2, History, Search, Clock, Volume2, VolumeX, Video } from "lucide-react";
 import { useAuth, API_BASE } from "./contexts/AuthContext";
 import LoginModal from "./components/LoginModal";
 import SimpleVoiceChat from "./components/SimpleVoiceChat";
@@ -29,6 +29,11 @@ interface APIMessage {
   role: string;
   content: string;
   image_url?: string;
+}
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
 export default function Home() {
@@ -84,7 +89,8 @@ export default function Home() {
   const streamRef = useRef<MediaStream | null>(null);
   const videoChatRef = useRef<HTMLVideoElement>(null);
   const videoChatStreamRef = useRef<MediaStream | null>(null);
-  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstall, setShowInstall] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   

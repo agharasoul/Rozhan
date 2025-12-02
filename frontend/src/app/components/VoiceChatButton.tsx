@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Mic, Phone, PhoneOff, Loader2, Square } from "lucide-react";
+import { Mic, PhoneOff, Loader2, Square } from "lucide-react";
 
 // آدرس WebSocket - داینامیک بر اساس hostname و پروتکل
 const getWsBase = () => {
@@ -35,17 +35,19 @@ export default function VoiceChatButton({ onMessage }: VoiceChatButtonProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [emotion, setEmotion] = useState<string>("neutral");
   const [transcript, setTranscript] = useState("");
-  const [userText, setUserText] = useState("");
+  const [, setUserText] = useState("");
   
   const wsRef = useRef<WebSocket | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const audioQueueRef = useRef<ArrayBuffer[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const isPlayingRef = useRef(false);
 
   // پخش صدای دریافتی (MP3)
-  const playAudioChunk = useCallback(async (base64Audio: string, mimeType: string = "audio/mp3") => {
+  const playAudioChunk = useCallback(async (base64Audio: string, _mimeType: string = "audio/mp3") => {
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new AudioContext();

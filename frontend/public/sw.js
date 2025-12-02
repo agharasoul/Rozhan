@@ -1,7 +1,11 @@
-/* eslint-disable no-unused-vars */
+// Service Worker for Rozhan PWA
 const CACHE_NAME = 'rozhan-v1';
+const urlsToCache = ['/'];
 
-self.addEventListener('install', () => {
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+  );
   self.skipWaiting();
 });
 
@@ -12,4 +16,3 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(fetch(event.request));
 });
-/* eslint-enable no-unused-vars */

@@ -65,13 +65,13 @@ export default function SmartDashboard() {
           <Card icon="📈" title="الگوها" value={patterns?.length || 0} />
           <Card icon="⚠️" title="هشدار" value={profile?.warnings?.length || 0} />
         </div>
-        {profile?.warnings?.length > 0 && (
+        {profile?.warnings && profile.warnings.length > 0 && (
           <div className="bg-red-900/30 rounded-xl p-4 mb-4 border border-red-500/30">
             <h2 className="font-bold text-red-400 mb-2">⚠️ هشدارها</h2>
             {profile.warnings.map((w: string, i: number) => <p key={i} className="text-red-300">{w}</p>)}
           </div>
         )}
-        {patterns?.length > 0 && (
+        {patterns && patterns.length > 0 && (
           <div className="bg-slate-800/50 rounded-xl p-4 mb-4 border border-blue-500/30">
             <h2 className="font-bold text-blue-400 mb-2">📈 الگوها</h2>
             {patterns.map((p: Pattern, i: number) => <p key={i} className="text-slate-300">📅 {p.day}: {p.food}</p>)}

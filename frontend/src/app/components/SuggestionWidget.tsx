@@ -2,13 +2,24 @@
 import { useState, useEffect } from 'react';
 import { API_BASE } from '../contexts/AuthContext';
 
+interface Recommendation {
+  food: string;
+  reason: string;
+  confidence?: number;
+}
+
+interface SuggestionData {
+  recommendations?: Recommendation[];
+  personalized_message?: string;
+}
+
 interface Props {
   token: string | null;
   onSelect?: (food: string) => void;
 }
 
 export default function SuggestionWidget({ token, onSelect }: Props) {
-  const [suggestion, setSuggestion] = useState<any>(null);
+  const [suggestion, setSuggestion] = useState<SuggestionData | null>(null);
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
