@@ -998,7 +998,7 @@ export default function Home() {
               </button>
               
               <SimpleVoiceChat 
-                sessionId={currentSessionId || undefined}
+                sessionId={currentSessionId ? currentSessionId.toString() : undefined}
                 onMessage={(text, role) => {
                   const newMsg: Message = {
                     id: Date.now().toString(),
