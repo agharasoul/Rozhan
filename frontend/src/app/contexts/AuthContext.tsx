@@ -7,6 +7,7 @@ interface User {
   phone: string | null;
   email: string | null;
   name: string | null;
+  is_admin?: boolean;
 }
 
 interface AuthContextType {
