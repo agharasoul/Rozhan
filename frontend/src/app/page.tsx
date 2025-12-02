@@ -258,6 +258,7 @@ export default function Home() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const stopSpeaking = () => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -1131,6 +1132,7 @@ export default function Home() {
                           : ""
                     }`}
                   >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     {msg.image && (
                       <img
                         src={msg.image}
@@ -1370,6 +1372,7 @@ export default function Home() {
         <div className="px-4 py-2 border-t border-zinc-800">
           <div className="max-w-3xl mx-auto flex items-center gap-3">
             <div className="relative flex-shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={selectedImage}
                 alt="preview"
