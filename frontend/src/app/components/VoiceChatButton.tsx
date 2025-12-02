@@ -47,7 +47,8 @@ export default function VoiceChatButton({ onMessage }: VoiceChatButtonProps) {
   const isPlayingRef = useRef(false);
 
   // پخش صدای دریافتی (MP3)
-  const playAudioChunk = useCallback(async (base64Audio: string, _mimeType: string = "audio/mp3") => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const playAudioChunk = useCallback(async (base64Audio: string, mimeType = "audio/mp3") => {
     try {
       if (!audioContextRef.current) {
         audioContextRef.current = new AudioContext();
@@ -161,6 +162,7 @@ export default function VoiceChatButton({ onMessage }: VoiceChatButtonProps) {
     setIsConnected(false);
     setTranscript("");
     setEmotion("neutral");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // شروع ضبط صدا

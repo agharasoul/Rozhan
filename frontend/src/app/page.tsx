@@ -37,7 +37,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function Home() {
-  const { user, token, isLoggedIn, logout, isLoading: authLoading } = useAuth();
+  const { user, token, isLoggedIn, logout } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -137,6 +137,7 @@ export default function Home() {
       setSessions([]);
       setCurrentSessionId(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
   // جستجوی real-time با debounce (فقط وقتی sidebar بازه)
@@ -157,6 +158,7 @@ export default function Home() {
         clearTimeout(searchTimeoutRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, sidebarOpen]);
 
   // محاسبه لیست پیام‌های دارای کلمه جستجو
@@ -433,7 +435,7 @@ export default function Home() {
     
     const handler = (e: Event) => {
       e.preventDefault();
-      setInstallPrompt(e);
+      setInstallPrompt(e as BeforeInstallPromptEvent);
       setShowInstall(true);
     };
     window.addEventListener("beforeinstallprompt", handler);
