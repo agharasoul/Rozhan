@@ -147,6 +147,7 @@ export default function VoiceChatButton({ onMessage }: VoiceChatButtonProps) {
       console.error("Connection error:", error);
       setIsConnecting(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onMessage, playAudioChunk]);
 
   // قطع اتصال

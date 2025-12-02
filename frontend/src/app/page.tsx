@@ -616,7 +616,7 @@ export default function Home() {
         setRecordingTime(prev => prev + 1);
       }, 1000);
       
-    } catch (error) {
+    } catch {
       alert("دسترسی به میکروفن رد شد");
     }
   };
@@ -941,7 +941,7 @@ export default function Home() {
                     {searchQuery && !hasResults ? (
                       <div className="text-center py-8">
                         <Search className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
-                        <p className="text-zinc-500 text-sm">نتیجه‌ای برای "{searchQuery}" یافت نشد</p>
+                        <p className="text-zinc-500 text-sm">نتیجه‌ای برای &ldquo;{searchQuery}&rdquo; یافت نشد</p>
                       </div>
                     ) : (
                       <>
