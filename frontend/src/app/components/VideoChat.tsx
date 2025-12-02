@@ -226,8 +226,8 @@ export default function VideoChat({ isOpen, onClose, token }: VideoChatProps) {
       setIsConnected(false);
     };
     
-    ws.onerror = (err) => {
-      console.error("WebSocket error:", err);
+    ws.onerror = () => {
+      console.error("WebSocket error");
       setError("خطا در اتصال");
     };
     
@@ -304,8 +304,8 @@ export default function VideoChat({ isOpen, onClose, token }: VideoChatProps) {
             setAnalysis(data.analysis);
           }
         }
-      } catch (err) {
-        console.error("Chat error:", err);
+      } catch {
+        console.error("Chat error");
         setError("خطا در ارسال پیام");
       } finally {
         setIsLoading(false);
@@ -337,7 +337,7 @@ export default function VideoChat({ isOpen, onClose, token }: VideoChatProps) {
       } else {
         setIsSpeaking(false);
       }
-    } catch (err) {
+    } catch {
       setIsSpeaking(false);
     }
   };

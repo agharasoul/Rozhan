@@ -39,7 +39,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       } else {
         setError(data.detail || 'خطا در ارسال کد');
       }
-    } catch (err) {
+    } catch {
       setError('خطا در اتصال به سرور');
     } finally {
       setIsLoading(false);
@@ -69,7 +69,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       } else {
         setError(data.detail || 'کد نامعتبر');
       }
-    } catch (err) {
+    } catch {
       setError('خطا در اتصال به سرور');
     } finally {
       setIsLoading(false);

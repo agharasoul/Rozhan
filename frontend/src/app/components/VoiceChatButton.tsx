@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Mic, MicOff, Phone, PhoneOff, Loader2, Square } from "lucide-react";
+import { Mic, Phone, PhoneOff, Loader2, Square } from "lucide-react";
 
 // آدرس WebSocket - داینامیک بر اساس hostname و پروتکل
 const getWsBase = () => {

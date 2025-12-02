@@ -17,7 +17,7 @@ interface CartItem {
 }
 
 export default function CartPage() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [note, setNote] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
