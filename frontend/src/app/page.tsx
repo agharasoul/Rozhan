@@ -1132,8 +1132,8 @@ export default function Home() {
                           : ""
                     }`}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     {msg.image && (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={msg.image}
                         alt="uploaded"
